@@ -1,7 +1,7 @@
 #!/bin/python
 # -*- coding: utf-8 -*-
 # Azure IP Ranges and Service Tags update automation for BIG-IP
-# Version: 1.1
+# Version: 1.2
 # Last Modified: 31 March 2021
 # Author: Niels van Sluis
 #
@@ -47,7 +47,7 @@ url_azure_ip_ranges_and_service_tags = 'https://www.microsoft.com/en-us/download
 use_ipv4 = 1                            # IPv4 exclusions: 0=do not use, 1=use
 use_ipv6 = 0                            # IPv6 exclusions: 0=do not use, 1=use
 
-# Don't import these O365 IPs (IP must be exact match to IP as it exists in JSON record - IP/CIDR mask cannot be modified)
+# Don't import these Azure IPs (IP must be exact match to IP as it exists in JSON record - IP/CIDR mask cannot be modified)
 # Provide IPs (IPv4 and IPv6) in list format - ex. ["191.234.140.0/22", "2620:1ec:a92::152/128"]
 noimport_ips = []
 
@@ -104,9 +104,9 @@ def main():
     result = commands.getoutput("tmsh show /cm failover-status field-fmt")
 
     if ("status ACTIVE" in result) or (ha_config == 0):
-        log(1, "This BIG-IP is standalone or HA ACTIVE. Initiating O365 update.")
+        log(1, "This BIG-IP is standalone or HA ACTIVE. Initiating Azure update.")
     else:
-        log(1, "This BIG-IP is HA STANDBY. Aborting O365 update.")
+        log(1, "This BIG-IP is HA STANDBY. Aborting Azure update.")
         sys.exit(0)
 
     #-----------------------------------------------------------------------
