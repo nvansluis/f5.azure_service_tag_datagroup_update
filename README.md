@@ -2,7 +2,7 @@
 
 This script fetches the Azure IP Ranges (IPv4 and/or IPv6) JSON file from Microsoft's Azure IP Ranges and Service Tags page and dynamically creates and updates IPv4 and IPv6 data groups. These datagroups can be used to allow access from Azure. If the script is running on an HA pair of BIG-IPs then the script will also initiate a ConfigSync to push the updated configuration from the active BIG-IP to the standby BIG-IP.
 
-By default the script is using the 'AzureTrafficManagement' service tag, which will fill the IPv4 data group with Azure IP Ranges from which Azure Traffic Management will perform the health tests.
+By default the script is using the 'AzureTrafficManager' service tag, which will fill the IPv4 data group with Azure IP Ranges from which Azure Traffic Manager will perform the health tests.
 
 ## Script Requirements
 * TMOS 12.1.0 or higher
