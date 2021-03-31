@@ -1,7 +1,7 @@
 #!/bin/python
 # -*- coding: utf-8 -*-
 # Azure IP Ranges and Service Tags update automation for BIG-IP
-# Version: 1.0
+# Version: 1.1
 # Last Modified: 31 March 2021
 # Author: Niels van Sluis
 #
@@ -23,7 +23,8 @@
 # further testing or modification.
 #-----------------------------------------------------------------------
 
-import requests
+import httplib
+from urlparse import urlparse
 import os
 import re
 import json
@@ -112,9 +113,12 @@ def main():
     # Get location of Azure IP Ranges and Service Tags JSON file
     #-----------------------------------------------------------------------
 
-    r = requests.get(url_azure_ip_ranges_and_service_tags)
+    parsed = urlparse(url_azure_ip_ranges_and_service_tags)
+    conn = httplib.HTTPSConnection(parsed.netloc)
+    conn.request('GET', parsed.path + '?' + parsed.query)
+    res = conn.getresponse()
 
-    if not r.status_code == 200:
+    if not res.status == 200:
         # MS Azure JSON download page request failed
         log(1, "Failed to fetch MS Azure JSON download page: " + url_azure_ip_ranges_and_service_tags)
         sys.exit(0)
@@ -122,7 +126,7 @@ def main():
         # MS Azure JSON download page request succeeded
         log(2, "Fetching MS Azure JSON download page was successful.")
 
-    links = re.findall('(https://download.*?\.json)', r.text)
+    links = re.findall('(https://download.*?\.json)', res.read())
 
     json_url_download_location = links[0]
 
@@ -158,14 +162,17 @@ def main():
     # Request Azure service tags list & put it in dictionary
     #-----------------------------------------------------------------------
 
-    r = requests.get(json_url_download_location)
+    parsed = urlparse(json_url_download_location)
+    conn = httplib.HTTPSConnection(parsed.netloc)
+    conn.request('GET', parsed.path)
+    res = conn.getresponse()
 
-    if not r.status_code == 200:
+    if not res.status == 200:
         log(1, "Failed to fetch MS Azure JSON file: " + json_url_download_location)
         sys.exit(0)
     else:
         log(2, "Fetching MS Azure JSON file was successful.")
-        dict_azure_all = json.loads(r.text)
+        dict_azure_all = json.loads(res.read())
 
     # Azure IP Ranges and Service Tags version check
     ms_azure_version_latest = str(dict_azure_all['changeNumber'])
