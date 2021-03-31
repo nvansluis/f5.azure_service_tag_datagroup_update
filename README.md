@@ -5,7 +5,6 @@ This script fetches the Azure IP Ranges (IPv4 and/or IPv6) JSON file from Micros
 ## Script Requirements
 * TMOS 12.1.0 or higher
 * BIG-IP must be capable of resolving internet DNS names (ex. via DNS Lookup Server configuration)
-* BIG-IP must be able to reach endpoints.office.com via TCP 443 (via Management or TMM interface)
 * Administrative rights on the BIG-IP(s)
 * Bash shell access on the BIG-IP(s)
 
