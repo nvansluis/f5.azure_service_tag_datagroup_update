@@ -1,8 +1,8 @@
 #!/bin/python
 # -*- coding: utf-8 -*-
 # Azure IP Ranges and Service Tags update automation for BIG-IP
-# Version: 1.2
-# Last Modified: 31 March 2021
+# Version: 1.3
+# Last Modified: 11 Januari 2025
 # Author: Niels van Sluis
 #
 # This script is based on work from Makoto Omura, F5 Networks Japan G.K,
@@ -41,7 +41,7 @@ import sys
 service_tag = "AzureTrafficManager"
 
 # URL that holds the dynamic location to the JSON file that contains the Azure IP Ranges and Service Tags.
-url_azure_ip_ranges_and_service_tags = 'https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519'
+url_azure_ip_ranges_and_service_tags = 'https://azure-servicetags.ipforward.nl/'
 
 # Azure Record types to download & update
 use_ipv4 = 1                            # IPv4 exclusions: 0=do not use, 1=use
